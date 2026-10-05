@@ -1,0 +1,235 @@
+/* ==========================================================================
+   ABOUT / SYSTEM PROFILE SECTION (Dark Charcoal / Black Background)
+   ========================================================================== */
+
+.profile-section {
+  position: relative;
+  width: 100%;
+  background-color: #0a0a0c;
+  color: #ffffff;
+  padding: clamp(4.5rem, 8vh, 7.5rem) 0;
+  box-sizing: border-box;
+  scroll-margin-top: 58px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+/* ==========================================================================
+   LEFT: Tilted Profile / Device Card
+   ========================================================================== */
+.profile-card-wrapper {
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-device-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(145deg, #14151a 0%, #0d0e12 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.02);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-device-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-4px);
+}
+
+.profile-image-container {
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 45vh, 440px);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: radial-gradient(circle at 50% 30%, #1e2029 0%, #0d0e12 80%);
+}
+
+.profile-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  pointer-events: none;
+}
+
+.profile-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  background-color: rgba(13, 14, 18, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.profile-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.profile-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+  animation: statusPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.profile-status-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #10b981;
+  text-transform: uppercase;
+  font-family: monospace, monospace;
+}
+
+.profile-year-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.1em;
+  font-family: monospace, monospace;
+}
+
+/* ==========================================================================
+   RIGHT: Technical Heading, Bio & Role Blocks
+   ========================================================================== */
+.profile-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.profile-pill-label {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+  font-family: monospace, monospace;
+}
+
+.profile-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: clamp(2.4rem, 4.5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.profile-name-highlight {
+  color: #f3f4f6;
+}
+
+.profile-description {
+  font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+  line-height: 1.75;
+  color: #9ca3af;
+  max-width: 650px;
+  margin: 0.25rem 0 1rem 0;
+}
+
+/* Three Compact Stat / Role Blocks */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 620px;
+}
+
+.profile-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.15rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.profile-stat-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stat-card-title {
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.stat-card-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #6b7280;
+  text-transform: uppercase;
+  font-family: monospace, monospace;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT
+   ========================================================================== */
+@media (max-width: 991px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .profile-card-wrapper {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .profile-stat-card {
+    padding: 0.9rem 1rem;
+  }
+
+  .profile-device-card {
+    max-width: 100%;
+  }
+
+  .profile-image-container {
+    height: 320px;
+  }
+}

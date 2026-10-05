@@ -1,0 +1,458 @@
+/* ==========================================================================
+   CINEMATIC EDITORIAL HERO SECTION: DARK EDGES -> LIGHT CENTER -> DARK EDGES
+   ========================================================================== */
+
+.hero-editorial-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 58px);
+  min-height: calc(100svh - 58px);
+  background:
+    /* Bottom cinematic vignette to deepen the base */
+    linear-gradient(to bottom, transparent 65%, rgba(7, 8, 10, 0.95) 100%),
+    /* Soft center spotlight glow behind portrait */
+    radial-gradient(ellipse 65% 60% at 50% 40%, rgba(226, 226, 223, 0.4) 0%, rgba(210, 212, 216, 0.2) 50%, transparent 80%),
+    /* Wide horizontal cinematic gradient */
+    linear-gradient(
+      90deg,
+      #07080a 0%,
+      #101115 10%,
+      #282b33 22%,
+      #6e727e 34%,
+      #b4b7bd 42%,
+      #dededb 50%,
+      #b4b7bd 58%,
+      #6e727e 66%,
+      #282b33 78%,
+      #101115 90%,
+      #07080a 100%
+    );
+  color: #ffffff;
+  margin-top: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  scroll-margin-top: 58px;
+}
+
+.hero-editorial-container {
+  width: 100%;
+  height: 100%;
+  max-width: 1540px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 5vw, 4.5rem);
+  padding-right: clamp(1.5rem, 5vw, 4.5rem);
+  box-sizing: border-box;
+}
+
+/* 3-Zone Grid: 31% Left / 39% Center (Center at 50.5%) / 30% Right */
+.hero-editorial-grid {
+  display: grid;
+  grid-template-columns: 31% 39% 30%;
+  width: 100%;
+  height: 100%;
+  align-items: stretch;
+  gap: clamp(1rem, 1.8vw, 2rem);
+}
+
+.hero-zone {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   LEFT ZONE: Greeting + 2-Line Animated Profession + Timeline
+   ========================================================================== */
+.hero-zone-left {
+  justify-content: space-between;
+  padding-top: clamp(1.5rem, 4vh, 3rem);
+  padding-bottom: clamp(1.5rem, 4vh, 2.75rem);
+  z-index: 3;
+}
+
+.hero-editorial-intro {
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #a3a6ad;
+  margin: 0 0 0.85rem 0;
+}
+
+.hero-editorial-profession-wrapper {
+  position: relative;
+  min-height: clamp(4.5rem, 7.5vw, 8rem);
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.hero-editorial-profession-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  font-size: clamp(40px, 3.6vw, 54px);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.profession-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero-editorial-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #90949d;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.hero-editorial-scroll:hover {
+  color: #ffffff;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* ==========================================================================
+   CENTER ZONE: Large Centered Front-Facing Portrait (Scroll Spin)
+   ========================================================================== */
+.hero-zone-center {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+}
+
+/* Outer position container: controls center position & height, elevated to eliminate top blank space */
+.portrait-position-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  margin-top: clamp(-42px, -5.2vh, -26px);
+  width: auto;
+  height: auto;
+}
+
+/* 3D Perspective Wrapper */
+.portrait-perspective {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+/* 3D Card Rotator (motion.div) - handles ONLY rotateY */
+.portrait-3d {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Common 3D Face Structure */
+.portrait-face {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+/* Front Face */
+.portrait-front {
+  position: relative;
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+/* Back Face */
+.portrait-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+/* Portrait Image: large dominant person, scale stable, seamless edge blend */
+.hero-portrait-img {
+  display: block;
+  height: clamp(570px, 83vh, 625px);
+  width: auto;
+  max-width: min(560px, 92vw);
+  aspect-ratio: 1145 / 1374;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.hero-portrait-back-img {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   RIGHT ZONE: Middle-Right Intro + Description + Action Pills
+   ========================================================================== */
+.hero-zone-right {
+  justify-content: space-between;
+  padding-top: clamp(1.5rem, 4vh, 3rem);
+  padding-bottom: clamp(1.5rem, 4vh, 2.75rem);
+  z-index: 3;
+}
+
+.hero-right-middle {
+  padding-top: clamp(6.5rem, 18vh, 10.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-editorial-right-heading {
+  font-size: clamp(11px, 0.82vw, 13px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.75px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 0.55rem 0;
+}
+
+.hero-editorial-right-description {
+  font-size: clamp(10px, 0.75vw, 12px);
+  line-height: 1.6;
+  font-weight: 400;
+  color: #9ea2ab;
+  max-width: 260px;
+  margin: 0;
+}
+
+.hero-editorial-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.hero-btn-editorial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Light / White Filled Pill with dark text */
+.hero-btn-editorial-light {
+  background: #ffffff;
+  color: #0b0c0e;
+  border: 1px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.hero-btn-editorial-light:hover {
+  background: #f0f0ed;
+  border-color: #ffffff;
+  color: #000000;
+  transform: translateY(-1px);
+}
+
+/* Outlined Pill */
+.hero-btn-editorial-outline {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.hero-btn-editorial-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero-editorial-section {
+    height: calc(100vh - 58px);
+    min-height: 560px;
+  }
+
+  .hero-editorial-grid {
+    grid-template-columns: 31% 39% 30%;
+    gap: 1rem;
+  }
+
+  .hero-editorial-profession-title {
+    font-size: clamp(34px, 4.2vw, 44px);
+  }
+
+  .hero-portrait-img {
+    height: clamp(520px, 72vh, 600px);
+  }
+
+  .hero-right-middle {
+    padding-top: clamp(4rem, 12vh, 6rem);
+  }
+
+  .hero-editorial-right-description {
+    font-size: 10.5px;
+    max-width: 220px;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+  .hero-editorial-section {
+    height: auto;
+    min-height: calc(100svh - 58px);
+    padding-top: 1.5rem;
+    padding-bottom: 2.75rem;
+    overflow: visible;
+  }
+
+  .hero-editorial-container {
+    height: auto;
+    padding-left: clamp(1.25rem, 5vw, 2.5rem);
+    padding-right: clamp(1.25rem, 5vw, 2.5rem);
+  }
+
+  .hero-editorial-grid {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 1.75rem;
+    width: 100%;
+  }
+
+  .hero-zone-left {
+    padding: 0.5rem 0 0;
+    height: auto;
+  }
+
+  .hero-editorial-intro {
+    font-size: 0.78rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-editorial-profession-wrapper {
+    min-height: auto;
+  }
+
+  .hero-editorial-profession-title {
+    font-size: clamp(2.1rem, 9.5vw, 3.2rem);
+    line-height: 0.94;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+    margin-top: 1.5rem;
+  }
+
+  .hero-zone-center {
+    height: auto;
+    min-height: clamp(320px, 50vh, 440px);
+    width: 100%;
+    margin: 0.5rem 0;
+    overflow: visible;
+  }
+
+  .portrait-position-container {
+    margin-top: -10px;
+    width: 100%;
+  }
+
+  .portrait-perspective,
+  .portrait-3d {
+    width: auto;
+  }
+
+  .hero-portrait-img {
+    height: clamp(380px, 58vh, 480px);
+    max-width: 90vw;
+  }
+
+  .hero-zone-right {
+    padding: 0;
+    height: auto;
+    gap: 1.25rem;
+  }
+
+  .hero-right-middle {
+    padding-top: 0;
+  }
+
+  .hero-editorial-right-heading {
+    font-size: clamp(0.92rem, 4.2vw, 1.1rem);
+    line-height: 1.35;
+    margin-bottom: 0.65rem;
+  }
+
+  .hero-editorial-right-description {
+    font-size: clamp(0.8rem, 3.5vw, 0.88rem);
+    max-width: 100%;
+  }
+
+  .hero-editorial-buttons {
+    gap: 0.75rem;
+  }
+}

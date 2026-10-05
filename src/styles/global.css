@@ -1,0 +1,38 @@
+/* ==========================================================================
+   GLOBAL PORTFOLIO STYLES
+   ========================================================================== */
+
+/* Main layout container with generous responsive padding */
+.portfolio-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 5vw, 5rem);
+  padding-right: clamp(1.5rem, 5vw, 5rem);
+}
+
+/* Sections */
+.portfolio-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Main Content Area: sits directly below fixed 58px navbar */
+main#main-content {
+  position: relative;
+  width: 100%;
+  padding-top: 58px;
+  background-color: #000000;
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
