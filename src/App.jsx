@@ -188,20 +188,19 @@ export default function App() {
         // Stacking depth scrub: as the NEXT card slides up, this card scales down & subtly dims
         if (index < projectWrappers.length - 1) {
           const nextWrapper = projectWrappers[index + 1]
-          if (wrapper && nextWrapper) {
+            const isMobile = window.innerWidth <= 768
             gsap.to(wrapper, {
               scrollTrigger: {
                 trigger: nextWrapper,
-                start: 'top 65%',
-                end: () => (window.innerWidth <= 768 ? 'top 70px' : 'top 96px'),
+                start: () => (window.innerWidth <= 768 ? 'top 95%' : 'top 65%'),
+                end: () => (window.innerWidth <= 768 ? 'top 72px' : 'top 96px'),
                 scrub: true,
               },
-              scale: 0.92,
-              opacity: 0.35,
+              scale: isMobile ? 0.96 : 0.92,
+              opacity: isMobile ? 0.6 : 0.35,
               transformOrigin: 'center top',
               ease: 'none',
             })
-          }
         }
       })
 

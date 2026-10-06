@@ -39,7 +39,7 @@ function ProjectCard({ proj, index }) {
             rel="noopener noreferrer"
             className="btn-project-live"
           >
-            <span>Live Experience</span>
+            <span>Live Demo</span>
             <ArrowUpRight size={16} />
           </a>
 
@@ -83,7 +83,8 @@ function ProjectCard({ proj, index }) {
             src={proj.type === 'ai-simulator' ? aiInterviewImg : foodzImg}
             alt={proj.title}
             className="project-mockup-cover-img"
-            loading="lazy"
+            loading="eager"
+            decoding="async"
           />
         </div>
       </div>

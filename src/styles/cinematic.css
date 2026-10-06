@@ -2608,15 +2608,67 @@ button {
 
   .project-stack-wrapper {
     top: 72px;
-    margin-bottom: 40vh;
+    margin-bottom: 75vh;
   }
 
   .project-cinematic-card {
+    display: flex;
+    flex-direction: column;
     grid-template-columns: 1fr;
     min-height: auto;
-    padding: 1.35rem 1.15rem;
-    gap: 1.35rem;
+    padding: 1.25rem 1rem;
+    gap: 1rem;
     border-radius: 18px;
+  }
+
+  .project-viewport-frame {
+    order: -1;
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+    border-radius: 14px;
+    margin-bottom: 0.15rem;
+    display: block;
+    overflow: hidden;
+  }
+
+  .project-mockup-image-box {
+    width: 100%;
+    min-height: 170px;
+    display: block;
+    position: relative;
+  }
+
+  .project-mockup-cover-img {
+    width: 100%;
+    height: 100%;
+    min-height: 170px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-info-pane {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-info-pane .project-btn-group {
+    order: -1;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0.15rem 0 0.4rem 0;
+    width: 100%;
+  }
+
+  .project-info-pane .btn-project-live,
+  .project-info-pane .btn-project-code {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
   }
 
   .project-headline {
@@ -2629,12 +2681,6 @@ button {
 
   .project-narrative {
     font-size: 0.88rem;
-  }
-
-  .project-viewport-frame {
-    height: auto;
-    min-height: 240px;
-    border-radius: 14px;
   }
 
   .ai-simulator-canvas {
@@ -2898,7 +2944,8 @@ button {
 .project-mockup-image-box {
   position: relative;
   width: 100%;
-  aspect-ratio: 1024 / 682;
+  aspect-ratio: 16 / 10.65;
+  min-height: 200px;
   background: #050508;
   overflow: hidden;
   display: flex;
@@ -2913,6 +2960,7 @@ button {
 .project-mockup-cover-img {
   width: 100%;
   height: 100%;
+  min-height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
