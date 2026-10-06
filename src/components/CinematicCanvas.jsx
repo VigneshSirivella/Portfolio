@@ -122,8 +122,8 @@ export default function CinematicCanvas({ scrollProgressRef }) {
       wireframe: false,
     })
     const heroRibbon = new THREE.Mesh(ribbonGeo, ribbonMat)
-    heroRibbon.position.set(2.6, 0.2, -1.2)
-    heroRibbon.scale.set(0.95, 0.95, 0.95)
+    heroRibbon.position.set(2.85, 0.15, -1.2)
+    heroRibbon.scale.set(1.1, 1.1, 1.1)
     scene.add(heroRibbon)
 
     // Glowing red rings visible clearly behind portrait
@@ -135,7 +135,8 @@ export default function CinematicCanvas({ scrollProgressRef }) {
       opacity: 0.45,
     })
     const heroRing = new THREE.Mesh(ringGeo, ringMat)
-    heroRing.position.set(2.6, 0.2, -1.8)
+    heroRing.position.set(2.85, 0.15, -1.8)
+    heroRing.scale.set(1.18, 1.18, 1.18)
     scene.add(heroRing)
 
     // =========================================================================
@@ -175,11 +176,11 @@ export default function CinematicCanvas({ scrollProgressRef }) {
         heroRing.scale.set(0.75, 0.75, 0.75)
         redRimLight.position.set(0.5, 0.2, 1.2)
       } else {
-        heroRibbon.position.set(2.6, 0.2, -1.2)
-        heroRibbon.scale.set(0.95, 0.95, 0.95)
-        heroRing.position.set(2.6, 0.2, -1.8)
-        heroRing.scale.set(1.05, 1.05, 1.05)
-        redRimLight.position.set(3, 1, 1)
+        heroRibbon.position.set(2.85, 0.15, -1.2)
+        heroRibbon.scale.set(1.1, 1.1, 1.1)
+        heroRing.position.set(2.85, 0.15, -1.8)
+        heroRing.scale.set(1.18, 1.18, 1.18)
+        redRimLight.position.set(3.2, 1, 1)
       }
     }
     updateResponsive3D()

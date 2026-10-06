@@ -1,5 +1,5 @@
 import { ArrowUp, Mail } from 'lucide-react'
-import { GithubIcon, LinkedinIcon } from '../components/SocialIcons'
+import { GithubIcon, LinkedinIcon, WhatsAppIcon } from '../components/SocialIcons'
 
 export default function CinematicFooter() {
   const scrollToTop = () => {
@@ -67,6 +67,17 @@ export default function CinematicFooter() {
               aria-label="Email Me"
             >
               <Mail size={18} />
+            </a>
+
+            <a
+              href="https://wa.me/918500535949?text=Hi%20Vignesh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-social-anchor"
+              aria-label="Chat on WhatsApp"
+              style={{ color: '#25D366' }}
+            >
+              <WhatsAppIcon size={18} />
             </a>
           </div>
         </div>

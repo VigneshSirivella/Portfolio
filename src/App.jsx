@@ -192,11 +192,11 @@ export default function App() {
               scrollTrigger: {
                 trigger: nextWrapper,
                 start: 'top 65%',
-                end: () => (window.innerWidth <= 768 ? 'top 72px' : 'top 100px'),
+                end: () => (window.innerWidth <= 768 ? 'top 70px' : 'top 96px'),
                 scrub: true,
               },
-              scale: 0.95,
-              opacity: 0.75,
+              scale: 0.92,
+              opacity: 0.35,
               transformOrigin: 'center top',
               ease: 'none',
             })

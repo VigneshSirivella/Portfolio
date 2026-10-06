@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
-import { Mail, Send, CheckCircle2 } from 'lucide-react'
-import { GithubIcon, LinkedinIcon } from '../components/SocialIcons'
+import { Mail, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
+import { GithubIcon, LinkedinIcon, WhatsAppIcon } from '../components/SocialIcons'
 import useCardSpotlight from '../hooks/useCardSpotlight'
 
 export default function CinematicContact({ onPlaySuccess }) {
@@ -13,34 +13,85 @@ export default function CinematicContact({ onPlaySuccess }) {
     email: '',
     message: '',
   })
-  const [status, setStatus] = useState({ submitted: false, message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [status, setStatus] = useState({ submitted: false, error: false, message: '', waUrl: '' })
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!formData.firstName.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setStatus({ submitted: false, message: 'Please complete all required fields.' })
+      setStatus({
+        submitted: false,
+        error: true,
+        message: 'Please complete all required fields (Name, Email, Message).',
+        waUrl: '',
+      })
       return
     }
 
-    onPlaySuccess?.()
-    setStatus({
-      submitted: true,
-      message: 'Transmission dispatched. Opening your email client to send directly.',
-    })
+    setIsSubmitting(true)
+    setStatus({ submitted: false, error: false, message: 'Transmitting message to email and WhatsApp...', waUrl: '' })
 
-    const subject = encodeURIComponent(
-      `Portfolio Inquiry from ${formData.firstName} ${formData.lastName}`
+    const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim()
+    const emailSubject = `Portfolio Inquiry from ${fullName}`
+    const fullMessage = `Name: ${fullName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+
+    const waText = encodeURIComponent(
+      `Hi Vignesh! My name is ${fullName} (${formData.email}).\n\n${formData.message}`
     )
-    const body = encodeURIComponent(
-      `Name: ${formData.firstName} ${formData.lastName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )
-    setTimeout(() => {
-      window.location.href = `mailto:vigni9866@gmail.com?subject=${subject}&body=${body}`
-    }, 600)
+    const waUrl = `https://wa.me/918500535949?text=${waText}`
+
+    try {
+      // 1. Send to email vigni9866@gmail.com via FormSubmit AJAX API
+      await fetch('https://formsubmit.co/ajax/vigni9866@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email: formData.email,
+          _subject: emailSubject,
+          message: formData.message,
+          _captcha: 'false',
+          _template: 'box',
+        }),
+      })
+
+      onPlaySuccess?.()
+      setStatus({
+        submitted: true,
+        error: false,
+        message: 'Dispatched to vigni9866@gmail.com & WhatsApp!',
+        waUrl: waUrl,
+      })
+
+      // 2. Open WhatsApp with prefilled message
+      setTimeout(() => {
+        window.open(waUrl, '_blank')
+      }, 500)
+
+      setFormData({ firstName: '', lastName: '', email: '', message: '' })
+    } catch {
+      // Offline / fallback handling
+      onPlaySuccess?.()
+      setStatus({
+        submitted: true,
+        error: false,
+        message: 'Dispatched to WhatsApp & Email client!',
+        waUrl: waUrl,
+      })
+      window.open(waUrl, '_blank')
+      window.location.href = `mailto:vigni9866@gmail.com?subject=${encodeURIComponent(
+        emailSubject
+      )}&body=${encodeURIComponent(fullMessage)}`
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -80,6 +131,17 @@ export default function CinematicContact({ onPlaySuccess }) {
             >
               <Mail size={18} />
               <span>vigni9866@gmail.com</span>
+            </a>
+
+            <a
+              href="https://wa.me/918500535949?text=Hi%20Vignesh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-direct-item"
+              style={{ color: '#25D366' }}
+            >
+              <WhatsAppIcon size={18} />
+              <span style={{ color: '#ffffff' }}>WhatsApp: +91 8500535949</span>
             </a>
 
             <a
@@ -176,25 +238,67 @@ export default function CinematicContact({ onPlaySuccess }) {
               <div
                 style={{
                   marginTop: '0.85rem',
-                  padding: '0.75rem 1rem',
+                  padding: '0.85rem 1rem',
                   borderRadius: '10px',
-                  background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  fontSize: '0.85rem',
+                  background: status.error ? 'rgba(255, 42, 59, 0.2)' : 'rgba(37, 211, 102, 0.15)',
+                  border: status.error ? '1px solid rgba(255, 42, 59, 0.4)' : '1px solid rgba(37, 211, 102, 0.4)',
+                  fontSize: '0.88rem',
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
+                  flexDirection: 'column',
+                  gap: '0.6rem',
                   color: '#ffffff',
                 }}
               >
-                {status.submitted && <CheckCircle2 size={16} />}
-                <span>{status.message}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {status.submitted && <CheckCircle2 size={18} style={{ color: '#25D366', flexShrink: 0 }} />}
+                  {status.error && <AlertCircle size={18} style={{ color: '#ff2a3b', flexShrink: 0 }} />}
+                  <span>{status.message}</span>
+                </div>
+
+                {status.submitted && status.waUrl && (
+                  <a
+                    href={status.waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      alignSelf: 'flex-start',
+                      background: '#25D366',
+                      color: '#000000',
+                      fontWeight: 700,
+                      fontSize: '0.82rem',
+                      padding: '0.45rem 0.9rem',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      marginTop: '0.25rem',
+                    }}
+                  >
+                    <WhatsAppIcon size={16} />
+                    <span>Open in WhatsApp</span>
+                  </a>
+                )}
               </div>
             )}
 
-            <button type="submit" className="contact-submit-btn">
-              <span>Send Message</span>
-              <Send size={16} />
+            <button
+              type="submit"
+              className="contact-submit-btn"
+              disabled={isSubmitting}
+              style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
+            >
+              {isSubmitting ? (
+                <>
+                  <span>Transmitting...</span>
+                  <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                </>
+              ) : (
+                <>
+                  <span>Send to Email & WhatsApp</span>
+                  <Send size={16} />
+                </>
+              )}
             </button>
           </form>
         </div>

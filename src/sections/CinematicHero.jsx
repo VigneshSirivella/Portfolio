@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import vigneshCinematic from '../assets/vignesh-cinematic.png'
-import AudioIntroWidget from '../components/AudioIntroWidget'
 
 const ROLES = [
   'Software Developer',
@@ -104,20 +103,16 @@ export default function CinematicHero() {
           </div>
 
           {/* ========================================================
-              RIGHT COLUMN: Approved Cinematic Seated Developer Scene
+              RIGHT COLUMN: Cinematic Developer Portrait
              ======================================================== */}
           <div className="hero-visual-col">
             <div className="hero-portrait-stage">
-              {/* Vignesh High-Resolution Cinematic Seated Developer Scene */}
               <img
                 src={vigneshCinematic}
                 alt="Sirivella Vignesh"
                 className="hero-portrait-cutout"
                 loading="eager"
               />
-
-              {/* Floating Welcome Audio Intro Widget at Bottom Right */}
-              <AudioIntroWidget />
             </div>
           </div>
         </div>
