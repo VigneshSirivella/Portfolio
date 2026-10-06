@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import './styles/cinematic.css'
+// Clean cinematic 3D canvas
 const CinematicCanvas = lazy(() => import('./components/CinematicCanvas'))
 import CinematicNavbar from './components/CinematicNavbar'
 import CinematicCursor from './components/CinematicCursor'

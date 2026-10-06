@@ -45,13 +45,6 @@ export default function CinematicCanvas({ scrollProgressRef }) {
     keyLight.position.set(-4, 5, 6)
     scene.add(keyLight)
 
-    // Contact Spotlight (illuminates 3D stage at the bottom)
-    const contactSpotlight = new THREE.SpotLight(0xffffff, 6, 40, Math.PI / 4, 0.5, 1)
-    contactSpotlight.position.set(0, -22, 10)
-    contactSpotlight.target.position.set(0, -28, 0)
-    scene.add(contactSpotlight)
-    scene.add(contactSpotlight.target)
-
     // =========================================================================
     // 1. ATMOSPHERIC PARTICLE DUST FIELD
     // =========================================================================
@@ -138,26 +131,6 @@ export default function CinematicCanvas({ scrollProgressRef }) {
     heroRing.position.set(2.85, 0.15, -1.8)
     heroRing.scale.set(1.18, 1.18, 1.18)
     scene.add(heroRing)
-
-    // =========================================================================
-    // 3. 3D MONOLITHS / EXTENSION STAGE FOR CONTACT SCENE
-    // =========================================================================
-    const monolithGroup = new THREE.Group()
-    monolithGroup.position.set(0, -32, -2)
-
-    const pillarMat = new THREE.MeshStandardMaterial({
-      color: 0x11131a,
-      roughness: 0.4,
-      metalness: 0.8,
-    })
-
-    for (let i = -4; i <= 4; i++) {
-      const pGeo = new THREE.BoxGeometry(0.8, Math.sin(Math.abs(i)) * 3 + 2, 0.8)
-      const pillar = new THREE.Mesh(pGeo, pillarMat)
-      pillar.position.set(i * 1.8, 0, (Math.random() - 0.5) * 2)
-      monolithGroup.add(pillar)
-    }
-    scene.add(monolithGroup)
 
     // Mouse coordinates for subtle camera parallax
     const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 }
@@ -257,6 +230,9 @@ export default function CinematicCanvas({ scrollProgressRef }) {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('resize', onResize)
+      while (scene.children.length > 0) {
+        scene.remove(scene.children[0])
+      }
       renderer.dispose()
       particleGeo.dispose()
       particleMat.dispose()

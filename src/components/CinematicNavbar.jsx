@@ -3,7 +3,6 @@ import { Menu, X, ArrowUpRight, Search, Volume2, VolumeX, FileText } from 'lucid
 
 const NAV_ITEMS = [
   { label: 'Home', id: 'hero' },
-  { label: 'About', id: 'about' },
   { label: 'Expertise', id: 'expertise' },
   { label: 'Skills', id: 'skills' },
   { label: 'Projects', id: 'projects' },

@@ -24,11 +24,11 @@ export default function CinematicCursor() {
         rootRef.current.style.opacity = '1'
       }
 
-      // Check if hovering over an interactive element
+      // Check if hovering over an interactive clickable element
       const target = e.target
       const interactive = Boolean(
         target.closest(
-          'a, button, .btn-hero-primary, .btn-hero-secondary, .btn-project-live, .btn-project-code, .expertise-node-card, .project-cinematic-card, .tech-cluster-card, .credentials-card, .hud-link, .expertise-skill-pill'
+          'a, button, input, textarea, select, [role="button"], .btn-hero-primary, .btn-hero-secondary, .btn-project-live, .btn-project-code, .hud-link'
         )
       )
 

@@ -1,20 +1,19 @@
 import { useState, useRef } from 'react'
 import { Mail, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
-import { GithubIcon, LinkedinIcon, WhatsAppIcon } from '../components/SocialIcons'
+import { GithubIcon, LinkedinIcon } from '../components/SocialIcons'
 import useCardSpotlight from '../hooks/useCardSpotlight'
 
 export default function CinematicContact({ onPlaySuccess }) {
   const cardRef = useRef(null)
-  useCardSpotlight(cardRef, { tilt: true, maxTilt: 6.0 })
+  useCardSpotlight(cardRef, { tilt: false })
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     message: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState({ submitted: false, error: false, message: '', waUrl: '' })
+  const [status, setStatus] = useState({ submitted: false, error: false, message: '' })
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -22,73 +21,55 @@ export default function CinematicContact({ onPlaySuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!formData.firstName.trim() || !formData.email.trim() || !formData.message.trim()) {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus({
         submitted: false,
         error: true,
-        message: 'Please complete all required fields (Name, Email, Message).',
-        waUrl: '',
+        message: 'Please complete all fields (Name, Email, and Message / Query).',
       })
       return
     }
 
     setIsSubmitting(true)
-    setStatus({ submitted: false, error: false, message: 'Transmitting message to email and WhatsApp...', waUrl: '' })
-
-    const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim()
-    const emailSubject = `Portfolio Inquiry from ${fullName}`
-    const fullMessage = `Name: ${fullName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-
-    const waText = encodeURIComponent(
-      `Hi Vignesh! My name is ${fullName} (${formData.email}).\n\n${formData.message}`
-    )
-    const waUrl = `https://wa.me/918500535949?text=${waText}`
+    setStatus({ submitted: false, error: false, message: 'Sending message...' })
 
     try {
-      // 1. Send to email vigni9866@gmail.com via FormSubmit AJAX API
-      await fetch('https://formsubmit.co/ajax/vigni9866@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/e5547f81d9c9035a6b5f6e04c5198d1f', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          name: fullName,
-          email: formData.email,
-          _subject: emailSubject,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          'Message / Query': formData.message.trim(),
+          _replyto: formData.email.trim(),
+          _subject: `New Portfolio Contact — ${formData.name.trim()}`,
           _captcha: 'false',
-          _template: 'box',
+          _template: 'table',
         }),
       })
 
-      onPlaySuccess?.()
-      setStatus({
-        submitted: true,
-        error: false,
-        message: 'Dispatched to vigni9866@gmail.com & WhatsApp!',
-        waUrl: waUrl,
-      })
+      const data = await response.json().catch(() => ({}))
 
-      // 2. Open WhatsApp with prefilled message
-      setTimeout(() => {
-        window.open(waUrl, '_blank')
-      }, 500)
-
-      setFormData({ firstName: '', lastName: '', email: '', message: '' })
-    } catch {
-      // Offline / fallback handling
-      onPlaySuccess?.()
+      if (response.ok && (data.success === 'true' || data.success === true || data.success === undefined)) {
+        onPlaySuccess?.()
+        setStatus({
+          submitted: true,
+          error: false,
+          message: 'Message sent successfully! Thank you for reaching out.',
+        })
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        throw new Error(data.message || 'Failed to send message. Please try again.')
+      }
+    } catch (err) {
       setStatus({
-        submitted: true,
-        error: false,
-        message: 'Dispatched to WhatsApp & Email client!',
-        waUrl: waUrl,
+        submitted: false,
+        error: true,
+        message: err.message || 'Unable to deliver message right now. Please check connection and try again.',
       })
-      window.open(waUrl, '_blank')
-      window.location.href = `mailto:vigni9866@gmail.com?subject=${encodeURIComponent(
-        emailSubject
-      )}&body=${encodeURIComponent(fullMessage)}`
     } finally {
       setIsSubmitting(false)
     }
@@ -134,17 +115,6 @@ export default function CinematicContact({ onPlaySuccess }) {
             </a>
 
             <a
-              href="https://wa.me/918500535949?text=Hi%20Vignesh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-direct-item"
-              style={{ color: '#25D366' }}
-            >
-              <WhatsAppIcon size={18} />
-              <span style={{ color: '#ffffff' }}>WhatsApp: +91 8500535949</span>
-            </a>
-
-            <a
               href="https://github.com/VigneshSirivella"
               target="_blank"
               rel="noopener noreferrer"
@@ -166,68 +136,53 @@ export default function CinematicContact({ onPlaySuccess }) {
           </div>
         </div>
 
-        {/* Right Column: Dispatch Transmission Form */}
+        {/* Right Column: Transmission Form */}
         <div className="contact-form-body">
           <form onSubmit={handleSubmit}>
             <div className="form-grid-2col">
               <div className="cinematic-input-group">
-                <label htmlFor="firstName" className="cinematic-input-label">
-                  First Name *
+                <label htmlFor="name" className="cinematic-input-label">
+                  Name *
                 </label>
                 <input
                   type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder="John"
+                  placeholder="Your Name"
                   required
                   className="cinematic-text-field"
                 />
               </div>
 
               <div className="cinematic-input-group">
-                <label htmlFor="lastName" className="cinematic-input-label">
-                  Last Name
+                <label htmlFor="email" className="cinematic-input-label">
+                  Email *
                 </label>
                 <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  placeholder="Doe"
+                  placeholder="your.email@example.com"
+                  required
                   className="cinematic-text-field"
                 />
               </div>
             </div>
 
             <div className="cinematic-input-group" style={{ marginTop: '1rem' }}>
-              <label htmlFor="email" className="cinematic-input-label">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="john@example.com"
-                required
-                className="cinematic-text-field"
-              />
-            </div>
-
-            <div className="cinematic-input-group" style={{ marginTop: '1rem' }}>
               <label htmlFor="message" className="cinematic-input-label">
-                Your Message *
+                Message / Query *
               </label>
               <textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Tell me about your project, team, or opportunity..."
+                placeholder="Write your message or query here..."
                 rows={4}
                 required
                 className="cinematic-text-field cinematic-textarea"
@@ -240,45 +195,18 @@ export default function CinematicContact({ onPlaySuccess }) {
                   marginTop: '0.85rem',
                   padding: '0.85rem 1rem',
                   borderRadius: '10px',
-                  background: status.error ? 'rgba(255, 42, 59, 0.2)' : 'rgba(37, 211, 102, 0.15)',
-                  border: status.error ? '1px solid rgba(255, 42, 59, 0.4)' : '1px solid rgba(37, 211, 102, 0.4)',
+                  background: status.error ? 'rgba(255, 42, 59, 0.2)' : 'rgba(34, 197, 94, 0.15)',
+                  border: status.error ? '1px solid rgba(255, 42, 59, 0.4)' : '1px solid rgba(34, 197, 94, 0.4)',
                   fontSize: '0.88rem',
                   display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.6rem',
+                  alignItems: 'center',
+                  gap: '0.5rem',
                   color: '#ffffff',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {status.submitted && <CheckCircle2 size={18} style={{ color: '#25D366', flexShrink: 0 }} />}
-                  {status.error && <AlertCircle size={18} style={{ color: '#ff2a3b', flexShrink: 0 }} />}
-                  <span>{status.message}</span>
-                </div>
-
-                {status.submitted && status.waUrl && (
-                  <a
-                    href={status.waUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      alignSelf: 'flex-start',
-                      background: '#25D366',
-                      color: '#000000',
-                      fontWeight: 700,
-                      fontSize: '0.82rem',
-                      padding: '0.45rem 0.9rem',
-                      borderRadius: '8px',
-                      textDecoration: 'none',
-                      marginTop: '0.25rem',
-                    }}
-                  >
-                    <WhatsAppIcon size={16} />
-                    <span>Open in WhatsApp</span>
-                  </a>
-                )}
+                {status.submitted && <CheckCircle2 size={18} style={{ color: '#22c55e', flexShrink: 0 }} />}
+                {status.error && <AlertCircle size={18} style={{ color: '#ff2a3b', flexShrink: 0 }} />}
+                <span>{status.message}</span>
               </div>
             )}
 
@@ -290,12 +218,12 @@ export default function CinematicContact({ onPlaySuccess }) {
             >
               {isSubmitting ? (
                 <>
-                  <span>Transmitting...</span>
+                  <span>Sending Message...</span>
                   <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
                 </>
               ) : (
                 <>
-                  <span>Send to Email & WhatsApp</span>
+                  <span>Send Message</span>
                   <Send size={16} />
                 </>
               )}

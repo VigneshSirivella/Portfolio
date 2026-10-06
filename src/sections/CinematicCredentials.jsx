@@ -1,14 +1,8 @@
-import { useRef } from 'react'
 import { GraduationCap, Briefcase, GitBranch } from 'lucide-react'
-import useCardSpotlight from '../hooks/useCardSpotlight'
 
 function CredentialCard({ children, className = '' }) {
-  const cardRef = useRef(null)
-  useCardSpotlight(cardRef, { tilt: true })
-
   return (
-    <div ref={cardRef} className={`credentials-card spotlight-card ${className}`}>
-      <div className="card-spotlight-border" aria-hidden="true" />
+    <div className={`credentials-card ${className}`}>
       {children}
     </div>
   )

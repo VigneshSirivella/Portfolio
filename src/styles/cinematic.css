@@ -1060,16 +1060,31 @@ button {
 
 @keyframes moveFrontFloat {
   0% {
-    transform: translateY(0) scale(1);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 10px rgba(255, 42, 59, 0.06);
+    transform: perspective(600px) rotateX(-12deg) translateY(-3px) translateZ(8px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 42, 59, 0.15);
   }
   50% {
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.65), 0 0 18px rgba(255, 42, 59, 0.35);
+    transform: perspective(600px) rotateX(-16deg) translateY(-7px) translateZ(16px) scale(1.07);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 42, 59, 0.4);
   }
   100% {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55), 0 0 14px rgba(255, 42, 59, 0.22);
+    transform: perspective(600px) rotateX(-13deg) translateY(-5px) translateZ(11px) scale(1.04);
+    box-shadow: 0 9px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 42, 59, 0.25);
+  }
+}
+
+@keyframes tiltForwardWave {
+  0% {
+    transform: perspective(600px) rotateX(-13deg) translateY(-3px) translateZ(10px) scale(1.03);
+    box-shadow: 0 8px 18px -2px rgba(0, 0, 0, 0.65), 0 0 12px rgba(255, 42, 59, 0.25);
+  }
+  50% {
+    transform: perspective(600px) rotateX(-18deg) translateY(-7px) translateZ(18px) scale(1.08);
+    box-shadow: 0 14px 26px -3px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 42, 59, 0.45);
+  }
+  100% {
+    transform: perspective(600px) rotateX(-14deg) translateY(-5px) translateZ(12px) scale(1.05);
+    box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.7), 0 0 14px rgba(255, 42, 59, 0.3);
   }
 }
 
@@ -1297,22 +1312,31 @@ button {
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   align-items: center;
-  gap: clamp(2.2rem, 3vw, 3.5rem);
+  gap: clamp(2.5rem, 3.5vw, 4rem);
   background: rgba(12, 13, 18, 0.85);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-subtle);
   border-radius: 28px;
-  padding: clamp(2rem, 3vh, 2.75rem) clamp(2.2rem, 3vw, 3.25rem);
-  min-height: clamp(480px, 58vh, 560px);
+  padding: clamp(2.5rem, 3.8vh, 3.5rem) clamp(2.5rem, 3.5vw, 3.8rem);
+  min-height: clamp(560px, 66vh, 660px);
   box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.95);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
   overflow: visible;
-  will-change: transform, opacity;
+  will-change: opacity;
+  transform: none !important;
+}
+
+.project-cinematic-card.spotlight-card {
+  transform: none !important;
+}
+
+.project-cinematic-card .card-spotlight-border {
+  display: none !important;
 }
 
 .project-cinematic-card:hover {
-  border-color: rgba(255, 42, 59, 0.45);
-  box-shadow: 0 45px 95px -15px rgba(0, 0, 0, 0.95), 0 0 45px var(--accent-red-subtle);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 40px 90px -20px rgba(0, 0, 0, 0.95);
 }
 
 .project-info-pane {
@@ -1364,18 +1388,23 @@ button {
 .project-tags-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-top: 0.25rem;
+  gap: 0.75rem 0.85rem;
+  margin-top: 0.5rem;
+  perspective: 800px;
+  transform-style: preserve-3d;
 }
 
 .project-tech-badge {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   color: var(--text-soft);
   background: rgba(255, 255, 255, 0.04);
-  padding: 0.35rem 0.85rem;
+  padding: 0.45rem 0.95rem;
   border-radius: 9999px;
   border: 1px solid var(--border-subtle);
+  line-height: 1.4;
+  transform: perspective(600px) rotateX(0deg) translateZ(0);
+  transform-style: preserve-3d;
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
               background 0.3s ease,
               border-color 0.3s ease,
@@ -1385,9 +1414,10 @@ button {
 }
 
 .project-cinematic-card:hover .project-tech-badge {
-  animation: moveFrontFloat 2.2s ease-in-out infinite alternate !important;
-  border-color: rgba(255, 42, 59, 0.45);
+  animation: tiltForwardWave 2.4s ease-in-out infinite alternate !important;
+  border-color: rgba(255, 42, 59, 0.35);
   background: #191b2e;
+  color: #ffffff;
 }
 
 .project-cinematic-card:hover .project-tech-badge:nth-child(1) { animation-delay: 0.0s !important; }
@@ -1400,11 +1430,11 @@ button {
 .project-cinematic-card:hover .project-tech-badge:nth-child(8) { animation-delay: 0.56s !important; }
 
 .project-tech-badge:hover {
-  transform: translateY(-8px) scale(1.08) !important;
+  transform: perspective(600px) rotateX(-18deg) translateY(-6px) translateZ(18px) scale(1.08) !important;
   background: rgba(255, 42, 59, 0.24) !important;
   border-color: var(--accent-red) !important;
   color: #ffffff !important;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 42, 59, 0.5) !important;
+  box-shadow: 0 14px 28px -4px rgba(0, 0, 0, 0.75), 0 0 18px rgba(255, 42, 59, 0.5) !important;
   z-index: 10 !important;
   animation-play-state: paused !important;
 }
@@ -1467,12 +1497,12 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 42, 59, 0.1);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
   transition: transform 0.5s var(--ease-cinematic);
 }
 
 .project-cinematic-card:hover .project-viewport-frame {
-  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) scale(1.02);
+  transform: scale(1.015);
 }
 
 .browser-header-strip {
@@ -1641,11 +1671,11 @@ button {
 
 /* Foodz Canvas Mockup */
 .foodz-mockup-canvas {
-  padding: clamp(1.4rem, 2vh, 1.75rem);
-  background: radial-gradient(circle at 85% 15%, rgba(255, 42, 59, 0.12) 0%, transparent 60%), #0c0e18;
+  padding: clamp(1.8rem, 2.5vh, 2.2rem);
+  background: radial-gradient(circle at 85% 15%, rgba(255, 42, 59, 0.08) 0%, transparent 60%), #0c0e18;
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1.25rem;
 }
 
 .foodz-hero-bar {
@@ -1681,8 +1711,8 @@ button {
 .foodz-card-item {
   background: rgba(18, 21, 32, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0.75rem 1.1rem;
+  border-radius: 14px;
+  padding: 0.85rem 1.2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -1749,11 +1779,20 @@ button {
   flex-direction: column;
   gap: 1.25rem;
   transition: all 0.35s var(--ease-cinematic);
+  transform: none !important;
+}
+
+.credentials-card.spotlight-card {
+  transform: none !important;
+}
+
+.credentials-card .card-spotlight-border {
+  display: none !important;
 }
 
 .credentials-card:hover {
-  border-color: rgba(255, 42, 59, 0.35);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85);
 }
 
 .cred-card-top {
@@ -1800,84 +1839,102 @@ button {
   line-height: 1.6;
 }
 
+.academic-gpa-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.1rem;
+  background: rgba(255, 42, 59, 0.08);
+  border: 1px solid rgba(255, 42, 59, 0.25);
+  border-radius: 12px;
+  width: fit-content;
+  margin: 0.35rem 0;
+}
+
+.gpa-number {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-red);
+  line-height: 1;
+}
+
+.gpa-label {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-soft);
+  letter-spacing: 0.02em;
+}
+
+.academic-coursework-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.coursework-title {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .cred-highlights-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.75rem 0.85rem;
+  margin-top: 0.65rem;
 }
 
 .cred-highlight-pill {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--text-soft);
   background: rgba(255, 255, 255, 0.04);
-  padding: 0.35rem 0.75rem;
+  padding: 0.45rem 0.95rem;
   border-radius: 9999px;
   border: 1px solid var(--border-subtle);
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-              background 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease,
-              color 0.3s ease;
+  line-height: 1.4;
+  transition: all 0.25s ease;
   will-change: transform;
 }
 
 .coursework-tags-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem 0.85rem;
 }
 
 .coursework-pill {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--text-soft);
   background: rgba(255, 255, 255, 0.04);
-  padding: 0.35rem 0.75rem;
+  padding: 0.45rem 0.95rem;
   border-radius: 9999px;
   border: 1px solid var(--border-subtle);
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-              background 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease,
-              color 0.3s ease;
+  line-height: 1.4;
+  transition: all 0.25s ease;
   will-change: transform;
 }
 
 .credentials-card:hover .cred-highlight-pill,
 .credentials-card:hover .coursework-pill {
-  animation: moveFrontFloat 2.2s ease-in-out infinite alternate !important;
-  border-color: rgba(255, 42, 59, 0.45);
-  background: #191b2e;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
 }
-
-.credentials-card:hover .cred-highlight-pill:nth-child(1),
-.credentials-card:hover .coursework-pill:nth-child(1) { animation-delay: 0.0s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(2),
-.credentials-card:hover .coursework-pill:nth-child(2) { animation-delay: 0.08s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(3),
-.credentials-card:hover .coursework-pill:nth-child(3) { animation-delay: 0.16s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(4),
-.credentials-card:hover .coursework-pill:nth-child(4) { animation-delay: 0.24s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(5),
-.credentials-card:hover .coursework-pill:nth-child(5) { animation-delay: 0.32s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(6),
-.credentials-card:hover .coursework-pill:nth-child(6) { animation-delay: 0.40s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(7),
-.credentials-card:hover .coursework-pill:nth-child(7) { animation-delay: 0.48s !important; }
-.credentials-card:hover .cred-highlight-pill:nth-child(8),
-.credentials-card:hover .coursework-pill:nth-child(8) { animation-delay: 0.56s !important; }
 
 .cred-highlight-pill:hover,
 .coursework-pill:hover {
-  transform: translateY(-8px) scale(1.08) !important;
-  background: rgba(255, 42, 59, 0.22) !important;
+  background: rgba(255, 42, 59, 0.2) !important;
   border-color: var(--accent-red) !important;
   color: #ffffff !important;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 42, 59, 0.5) !important;
-  z-index: 10 !important;
-  animation-play-state: paused !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 42, 59, 0.35);
+  z-index: 5;
 }
 
 /* ==========================================================================
@@ -1934,6 +1991,7 @@ button {
   grid-template-columns: 0.95fr 1.05fr;
   gap: 3rem;
   color: #ffffff;
+  transform: none !important;
 }
 
 .contact-card-left {
@@ -2555,6 +2613,7 @@ button {
 
   .project-cinematic-card {
     grid-template-columns: 1fr;
+    min-height: auto;
     padding: 1.35rem 1.15rem;
     gap: 1.35rem;
     border-radius: 18px;
@@ -2835,7 +2894,35 @@ button {
   border-radius: 9999px;
 }
 
-/* 3. AI Interview Simulator Rich Mockup Canvas */
+/* 3. Projects Showcase Mockup Image Frames */
+.project-mockup-image-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1024 / 682;
+  background: #050508;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-mockup-image-box.foodz-box {
+  aspect-ratio: 16 / 9;
+}
+
+.project-mockup-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.project-cinematic-card:hover .project-mockup-cover-img {
+  transform: scale(1.035);
+}
+
 .ai-simulator-canvas {
   background: radial-gradient(circle at 85% 15%, rgba(255, 42, 59, 0.14) 0%, transparent 60%), #0c0e18 !important;
   padding: clamp(1.25rem, 2vh, 1.6rem) clamp(1.35rem, 2vw, 1.65rem) !important;
@@ -2964,52 +3051,53 @@ button {
 
 .cinematic-cursor-dot {
   position: fixed;
-  top: -4px;
-  left: -4px;
-  width: 8px;
-  height: 8px;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #ff2a3b;
-  box-shadow: 0 0 10px #ff2a3b, 0 0 20px rgba(255, 42, 59, 0.6);
+  box-shadow: 0 0 8px #ff2a3b, 0 0 16px rgba(255, 42, 59, 0.5);
   pointer-events: none;
-  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, top 0.25s ease, left 0.25s ease;
   will-change: transform;
 }
 
 .cinematic-cursor-dot.hovered {
-  width: 12px;
-  height: 12px;
-  top: -6px;
-  left: -6px;
+  width: 7px;
+  height: 7px;
+  top: -3.5px;
+  left: -3.5px;
   background: #ffffff;
-  box-shadow: 0 0 15px #ffffff, 0 0 25px #ff2a3b;
+  box-shadow: 0 0 10px #ffffff, 0 0 18px #ff2a3b;
 }
 
 .cinematic-cursor-ring {
   position: fixed;
-  top: -20px;
-  left: -20px;
-  width: 40px;
-  height: 40px;
+  top: -14px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 42, 59, 0.5);
-  background: rgba(255, 42, 59, 0.04);
+  border: 1.2px solid rgba(255, 42, 59, 0.45);
+  background: rgba(255, 42, 59, 0.03);
   pointer-events: none;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s ease, 
-              background 0.3s ease;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              top 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              left 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease, 
+              background 0.25s ease;
   will-change: transform;
 }
 
 .cinematic-cursor-ring.hovered {
-  width: 64px;
-  height: 64px;
-  top: -32px;
-  left: -32px;
+  width: 36px;
+  height: 36px;
+  top: -18px;
+  left: -18px;
   border-color: rgba(255, 42, 59, 0.85);
-  background: rgba(255, 42, 59, 0.12);
-  backdrop-filter: blur(1px);
+  background: rgba(255, 42, 59, 0.08);
 }
 
 @media (pointer: coarse) {

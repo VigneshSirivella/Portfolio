@@ -1,24 +1,14 @@
-import { useRef } from 'react'
-import { Sparkles, ShoppingBag, ArrowUpRight, CheckCircle2 } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { GithubIcon } from '../components/SocialIcons'
-import useCardSpotlight from '../hooks/useCardSpotlight'
+import aiInterviewImg from '../assets/ai-interview.png'
+import foodzImg from '../assets/foodz.png'
 
 function ProjectCard({ proj, index }) {
-  const cardRef = useRef(null)
-  useCardSpotlight(cardRef, { tilt: true })
-
-  // ATS score telemetry
-  const reportCount = 'PDF'
-
   return (
     <div
-      ref={cardRef}
-      className="project-cinematic-card spotlight-card"
+      className="project-cinematic-card"
       data-project-index={index}
     >
-      {/* Dynamic spotlight border highlight overlay */}
-      <div className="card-spotlight-border" aria-hidden="true" />
-
       {/* Left Column: Narrative, Metadata & Direct Actions */}
       <div className="project-info-pane">
         <div className="project-meta-pill-row">
@@ -87,100 +77,15 @@ function ProjectCard({ proj, index }) {
           </div>
         </div>
 
-        {/* Inner Mockup Canvas */}
-        {proj.type === 'ai-simulator' ? (
-          <div className="mockup-inner-canvas ai-simulator-canvas">
-            {/* Active Interview Prompt Card */}
-            <div className="sim-prompt-box">
-              <div className="sim-prompt-meta">
-                <span className="sim-prompt-badge">Q03 · SYSTEM ARCHITECTURE</span>
-                <span className="sim-prompt-status">
-                  <span className="hud-pulse-dot" /> AI ACTIVE
-                </span>
-              </div>
-              <p className="sim-prompt-query">
-                "Explain how React's reconciliation engine (Fiber) handles component tree diffing and state batching."
-              </p>
-            </div>
-
-            {/* Simulator Telemetry Row */}
-            <div className="simulator-hud-row">
-              <div className="sim-user-status">
-                <span className="sim-status-pulse" />
-                <span className="sim-status-label">
-                  AI QUESTION & FEEDBACK ENGINE
-                </span>
-              </div>
-
-              <div className="sim-metrics-cluster">
-                <div className="sim-metric-item">
-                  <span className="sim-metric-val">{reportCount}</span>
-                  <span className="sim-metric-tag">REPORTS</span>
-                </div>
-                <div className="sim-metric-item">
-                  <span className="sim-metric-val">LIVE</span>
-                  <span className="sim-metric-tag">TRENDS</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Speech & Audio Feedback Card */}
-            <div className="sim-speech-card">
-              <div className="sim-speech-header">
-                <span className="sim-speech-title">
-                  Interview Feedback Feed
-                </span>
-                <span className="sim-speech-badge">
-                  <Sparkles size={11} style={{ display: 'inline', marginRight: 4 }} />
-                  AI FEEDBACK
-                </span>
-              </div>
-
-              <div className="sim-audio-waveform">
-                {Array.from({ length: 28 }).map((_, i) => (
-                  <span
-                    key={i}
-                    className="waveform-bar"
-                    style={{
-                      animationDelay: `${(i * 0.05).toFixed(2)}s`,
-                      height: `${Math.max(22, Math.sin(i * 0.45) * 75 + 25)}%`,
-                    }}
-                  />
-                ))}
-              </div>
-
-              <div className="sim-speech-feedback">
-                <CheckCircle2 size={14} style={{ color: 'var(--accent-red)', flexShrink: 0 }} />
-                <span>Feedback generated · downloadable PDF report ready.</span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="foodz-mockup-canvas">
-            <div className="foodz-hero-bar">
-              <span className="foodz-logo">FoodZ</span>
-              <span className="foodz-cart-pill">
-                <ShoppingBag size={13} style={{ display: 'inline', marginRight: 5 }} />
-                CART (3)
-              </span>
-            </div>
-
-            <div className="foodz-cards-preview-row">
-              <div className="foodz-card-item">
-                <div className="foodz-item-thumb">🍔</div>
-                <div className="foodz-item-line">Classic Burger · ₹149</div>
-              </div>
-              <div className="foodz-card-item">
-                <div className="foodz-item-thumb">🍕</div>
-                <div className="foodz-item-line">Artisan Pizza · ₹249</div>
-              </div>
-              <div className="foodz-card-item">
-                <div className="foodz-item-thumb">🥗</div>
-                <div className="foodz-item-line">Mediterranean · ₹199</div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Inner Mockup Canvas / Image Showcase */}
+        <div className={`project-mockup-image-box ${proj.type === 'foodz' ? 'foodz-box' : ''}`}>
+          <img
+            src={proj.type === 'ai-simulator' ? aiInterviewImg : foodzImg}
+            alt={proj.title}
+            className="project-mockup-cover-img"
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   )
