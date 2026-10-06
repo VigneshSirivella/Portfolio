@@ -1303,8 +1303,11 @@ button {
 .projects-showcase-stack {
   position: relative;
   width: 100%;
-  margin: 3rem auto 0;
-  padding-bottom: 10vh;
+  margin: 3.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 5vw, 4.5rem);
+  padding-bottom: 3rem;
 }
 
 .project-cinematic-card {
@@ -2606,9 +2609,16 @@ button {
     padding: 4.5rem 0;
   }
 
+  .projects-showcase-stack {
+    margin: 2rem auto 0;
+    gap: 2.5rem;
+    padding-bottom: 2rem;
+  }
+
   .project-stack-wrapper {
-    top: 72px;
-    margin-bottom: 75vh;
+    position: relative;
+    top: auto;
+    margin-bottom: 0;
   }
 
   .project-cinematic-card {
@@ -2904,18 +2914,12 @@ button {
   opacity: 1;
 }
 
-/* 2. Pinned Stacking Card Deck in Featured Work */
+/* 2. Sequential Project Cards Showcase */
 .project-stack-wrapper {
-  position: sticky;
-  top: 96px;
+  position: relative;
   width: 100%;
-  margin-bottom: 55vh;
-  transform-origin: center top;
-  will-change: transform, opacity;
-}
-
-.project-stack-wrapper:last-child {
   margin-bottom: 0;
+  will-change: transform, opacity;
 }
 
 .project-lead-line {

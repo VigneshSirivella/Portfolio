@@ -139,14 +139,13 @@ export default function CinematicProjects() {
           </p>
         </div>
 
-        {/* Cinematic Stacking Deck Showcase */}
+        {/* Projects Showcase: Sequential Full View */}
         <div className="projects-showcase-stack">
           {projects.map((proj, idx) => (
             <div
               key={proj.id}
               id={`project-card-${idx}`}
               className="project-stack-wrapper"
-              style={{ zIndex: idx + 1 }}
             >
               <ProjectCard proj={proj} index={idx} />
             </div>

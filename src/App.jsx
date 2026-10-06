@@ -182,26 +182,21 @@ export default function App() {
         })
       })
 
-      // Featured Projects: Pinned Sticky Stacking Deck
+      // Featured Projects: Sequential Natural Cards Entrance
       const projectWrappers = gsap.utils.toArray('.project-stack-wrapper')
-      projectWrappers.forEach((wrapper, index) => {
-        // Stacking depth scrub: as the NEXT card slides up, this card scales down & subtly dims
-        if (index < projectWrappers.length - 1) {
-          const nextWrapper = projectWrappers[index + 1]
-            const isMobile = window.innerWidth <= 768
-            gsap.to(wrapper, {
-              scrollTrigger: {
-                trigger: nextWrapper,
-                start: () => (window.innerWidth <= 768 ? 'top 95%' : 'top 65%'),
-                end: () => (window.innerWidth <= 768 ? 'top 72px' : 'top 96px'),
-                scrub: true,
-              },
-              scale: isMobile ? 0.96 : 0.92,
-              opacity: isMobile ? 0.6 : 0.35,
-              transformOrigin: 'center top',
-              ease: 'none',
-            })
-        }
+      projectWrappers.forEach((card, idx) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+          y: 40,
+          opacity: 0,
+          duration: 0.85,
+          delay: idx * 0.1,
+          ease: 'power3.out',
+        })
       })
 
       // Credentials & Logs: Sequential Timeline Entrance
